@@ -26,7 +26,7 @@ const DragAndDrop = () => {
   };
 
   const handleUpload = () => {
-    // Programmatically trigger the file input when the user clicks the upload button
+    // Programmatically trigger the file input when the user clicks the submit button
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -37,7 +37,7 @@ const DragAndDrop = () => {
     if (file) {
       setSelectedFile(file);
       // Handle the file upload here (e.g., send it to a server)
-      console.log('Uploading file:', file);
+      console.log('Selected file:', file);
       // Implement your file upload logic here
     }
   };
@@ -63,8 +63,6 @@ const DragAndDrop = () => {
           <div>
             <p>Selected file:</p>
             <p>{selectedFile.name}</p>
-            <button onClick={handleUpload}>Upload</button>
-            <button onClick={handleReset}>Reset</button>
           </div>
         ) : (
           <p>{dragging ? 'Drop the file here' : 'Click or drag and drop a file here'}</p>
@@ -77,6 +75,12 @@ const DragAndDrop = () => {
         ref={fileInputRef}
         onChange={handleFileInputChange}
       />
+
+      {/* Buttons outside the drag and drop box */}
+      <div>
+        <button className="submit-button" onClick={handleUpload}>Submit</button>
+        <button className="reset-button" onClick={handleReset}>Reset</button>
+      </div>
     </div>
   );
 };

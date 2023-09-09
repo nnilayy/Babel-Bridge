@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import RecordContent from './RecordContent';
-import AudioVideoContent from './AudioVideoContent';
+import AudioVideoContent from './AudioFileContent';
 import TextContent from './TextContent';
 
 const CenterBox = () => {
