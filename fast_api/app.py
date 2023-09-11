@@ -2,10 +2,7 @@ from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pydub import AudioSegment
-from io import BytesIO
-from scipy.io import wavfile
 import numpy as np
-import librosa
 import os
 from translator import translate
 from hindi import audio_2_text_hindi
