@@ -9,7 +9,8 @@
 html, body{
   height:100%;
   width: 100%;
-  background-color: black;
+  background: linear-gradient(45deg, rgb(0, 0, 0), rgb(40, 25, 25));
+
 }
 .App {
   text-align: center;
@@ -65,12 +66,12 @@ border-width: 2px;
 }
 
 .button {
-  border-color: rgb(43, 136, 43);
-  background-color: rgb(11, 243, 11);
+  border-color: rgb(155, 162, 155);
+  background-color: rgb(0, 0, 0);
   border-style: solid;
   border-radius: 5px;
   padding: 5px;
-  color: rgb(39, 40, 34);
+  color:rgb(236, 209, 183);
   transition: background-color 0.3s ease; /* Add transition to background-color */
 }
 
@@ -84,10 +85,16 @@ border-width: 2px;
   color: white; 
   display: flex;
   justify-content: space-evenly;
-
-
 }
 
+/* button {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+} */
 .centerbox-content-text{
   background-color: rgb(0, 0, 0);
   padding-top:200px;
@@ -106,21 +113,28 @@ border-width: 2px;
   border-top-width: 2px;
   border-right-width: 2px;
   border-color: black;
-  background-color: rgb(1, 40, 69);
+  background-color: rgba(1, 40, 69, 0.515);
+  border-color:antiquewhite;
 }
 .centerbox-content-text-textbox:focus {
   outline: none;
 }
+
 .centerbox-content-record-submit{
-  background-color: rgb(18, 155, 55);
+  background-color: rgba(15, 215, 68, 0.419);
   border-style: solid;
   padding: 0px 10px;
   border-width: 0px;
   border-top-width: 2px;
   color:bisque;
-
+  border-color:antiquewhite;
 }
 
+.centerbox-content-record-submit:hover{
+  background-color: rgb(49, 120, 68);
+  cursor:pointer;
+
+}
 .dropbox-and-title-container{
   display: flex;
   flex-direction: column;
@@ -198,11 +212,14 @@ border-width: 2px;
   background-color: #f7f7f7;
 }
 
-button {
-  margin-top: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
+.betabutton{
+  margin-top: 20px;
+  background-color: rgb(0, 0, 0);
+  color: rgb(183, 166, 166);
+  border-style: solid;
+  border-color: rgb(183, 166, 166);
+  border-width: 2px;
+  border-radius: 5px;
+  padding: 5px;
+  transition: background-color 0.3s ease; /* Add transition to background-color */
 }

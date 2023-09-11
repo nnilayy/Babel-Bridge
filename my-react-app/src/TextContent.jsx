@@ -1,57 +1,114 @@
 import React, { useState } from 'react';
 
 const TextContent = () => {
-  const [selectedOption1, setSelectedOption1] = useState('Option 1');
-  const [selectedOption2, setSelectedOption2] = useState('Option A');
+  const [NativeLanguage, setNativeLanguage] = useState('');
+  const [DesiredLanguage, setDesiredLanguage] = useState('');
+  const [textInput, setTextInput] = useState('');
+  const [translatedText, setTranslatedText] = useState(''); // State for translated text
 
   const handleDropdownChange1 = (e) => {
-    setSelectedOption1(e.target.value);
+    setNativeLanguage(e.target.value);
   };
 
   const handleDropdownChange2 = (e) => {
-    setSelectedOption2(e.target.value);
+    setDesiredLanguage(e.target.value);
   };
 
-  const [textInput, setTextInput] = useState('');
-  
   const handleTextInputChange = (e) => {
     setTextInput(e.target.value);
   };
 
-  const handleSubmit = () => {
-    // Handle form submission here
-    // You can access the text input value with textInput
+  const handleEnterPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
   };
+
+  const handleSubmit = () => {
+    if (textInput.trim() !== '') {
+      fetch('http://localhost:8000/text/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          NativeLanguage,
+          DesiredLanguage,
+          textInput,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log('Server response:', data);
+          setTranslatedText(data); // Update translatedText state
+          setTextInput('');
+        })
+        .catch((error) => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+    } else {
+      console.warn('Text input is empty. Please enter text before submitting.');
+    }
+  };
+
   return (
     <div>
-        <h2 className='centerbox-title'>Enter Your Text</h2>
-        
+      <h2 className='centerbox-title'>Enter Your Text</h2>
 
-        <div className='centerbox-dropbox'>
-            <div className="dropbox-and-title-container">
-            <label className='label-style'>Native Language</label>
-            <select className="dropbox-style" value={selectedOption1} onChange={handleDropdownChange1}>
-            <option value="Option 1">Option 1</option>
-            <option value="Option 2">Option 2</option>
-            <option value="Option 3">Option 3</option>
-            </select>
-            </div>
-            <div className="dropbox-and-title-container">
-            <label className='label-style'>Desired Language</label>
-            <select className="dropbox-style" value={selectedOption2} onChange={handleDropdownChange2}>
-            <option value="Option A">Option A</option>
-            <option value="Option B">Option B</option>
-            <option value="Option C">Option C</option>
-            </select>
-            </div>
+      <div className='centerbox-dropbox'>
+        <div className="dropbox-and-title-container">
+          <label className='label-style'>Native Language</label>
+          <select
+            className="dropbox-style"
+            value={NativeLanguage}
+            onChange={handleDropdownChange1}
+          >
+            <option value="hi">Hindi</option>
+            <option value="pa">Punjabi</option>
+            <option value="mr">Marathi</option>
+            <option value="ur">Urdu</option>
+            <option value="te">Telugu</option>
+          </select>
         </div>
-        
-        
-        <div className='centerbox-content-text'>
-        <input className="centerbox-content-text-textbox" type="text" value={textInput} onChange={handleTextInputChange}  placeholder="Type here..."/>
-        <button className="centerbox-content-text-submit" onClick={handleSubmit} >Submit</button>
+        <div className="dropbox-and-title-container">
+          <label className='label-style'>Desired Language</label>
+          <select className="dropbox-style" value={DesiredLanguage} onChange={handleDropdownChange2}>
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+          </select>
+        </div>
       </div>
 
+      <div className='centerbox-content-text'>
+        <input
+          className="centerbox-content-text-textbox"
+          type="text"
+          value={textInput}
+          onChange={handleTextInputChange}
+          placeholder="Type here..."
+          onKeyDown={handleEnterPress} // Listen for Enter key press
+        />
+        <button
+          type="button"
+          className="centerbox-content-record-submit"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+      </div>
+
+      {translatedText && (
+        <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f0f0f0', border: '1px solid #ccc', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+          <h3>Translated Text:</h3>
+          <p>{translatedText}</p>
+        </div>
+      )}
     </div>
   );
 };
