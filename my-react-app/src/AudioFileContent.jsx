@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
+import ResponseBox from './ResponseBox'; // Import the ResponseBox component
 
-const AudioFileContent = () => {
+const AudioFileContent = ({ onResponseReceived }) => {
   const [NativeLanguage, setNativeLanguage] = useState('hi');
   const [DesiredLanguage, setDesiredLanguage] = useState('en');
   const [audio, setAudio] = useState(null);
@@ -42,6 +43,8 @@ const AudioFileContent = () => {
         .then((data) => {
           // Set the server response in the state
           setServerResponse(data);
+          // Call the callback function to notify the parent component
+          onResponseReceived(data);
         })
         .catch((error) => {
           console.error('There was a problem with the fetch operation:', error);
@@ -52,7 +55,7 @@ const AudioFileContent = () => {
   };
 
   return (
-    <div >
+    <div>
       <h2 className='centerbox-title'>Drag and Drop Your Audio File</h2>
       <div className='centerbox-dropbox'>
         <div className="dropbox-and-title-container">
@@ -109,10 +112,7 @@ const AudioFileContent = () => {
 
       {/* Display the server response */}
       {serverResponse && (
-        <div className="server-response">
-          <h3>Server Response:</h3>
-          <p>{serverResponse}</p>
-        </div>
+        <ResponseBox responseText={serverResponse} />
       )}
     </div>
   );

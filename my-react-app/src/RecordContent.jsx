@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import ResponseBox from './ResponseBox'; // Import the response box component
 
-function RecordContent() {
+function RecordContent({ onResponseReceived }) { // Accept the onResponseReceived prop
   const [audioStream, setAudioStream] = useState(null);
   const [audioUrl, setAudioUrl] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [NativeLanguage, setNativeLanguage] = useState('hi');
-  const [DesiredLanguage, setDesiredLanguage] = useState('en');
+  const [DesiredLanguage, setDesiredLanguage] = useState('fr');
   const [audio, setAudio] = useState(null); // Store the recorded audio data
   const [serverResponse, setServerResponse] = useState(''); // Store the server response
 
@@ -109,6 +109,7 @@ function RecordContent() {
         .then((data) => {
           console.log('Server response:', data);
           setServerResponse(data); // Set the server response in the state
+          onResponseReceived(data); // Call the callback function with the server response
         })
         .catch((error) => {
           console.error('There was a problem with the fetch operation:', error);

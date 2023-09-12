@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import RecordContent from './RecordContent';
-import AudioVideoContent from './AudioFileContent';
+import AudioFileContent from './AudioFileContent';
 import TextContent from './TextContent';
 import ResponseBox from './ResponseBox'; // Import the ResponseBox component
 
@@ -31,9 +31,25 @@ const CenterBox = () => {
           </>
         );
       case 'Audio/Video File':
-        return <AudioVideoContent />;
+        return (
+          <>
+            {responseText ? (
+              <ResponseBox responseText={responseText} /> // Render the ResponseBox component when there's a response
+            ) : (
+              <AudioFileContent onResponseReceived={handleResponseReceived} /> // Pass the callback function
+            )}
+          </>
+        );
       case 'Text':
-        return <TextContent onResponseReceived={handleResponseReceived} />; // Pass the callback function
+        return (
+          <>
+            {responseText ? (
+              <ResponseBox responseText={responseText} /> // Render the ResponseBox component when there's a response
+            ) : (
+              <TextContent onResponseReceived={handleResponseReceived} /> // Pass the callback function
+            )}
+          </>
+        );
       default:
         return <div>Select an option to display content</div>;
     }
