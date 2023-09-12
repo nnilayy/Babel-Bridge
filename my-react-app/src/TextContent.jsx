@@ -57,7 +57,6 @@ const TextContent = () => {
   return (
     <div>
       <h2 className='centerbox-title'>Enter Your Text</h2>
-
       <div className='centerbox-dropbox'>
         <div className="dropbox-and-title-container">
           <label className='label-style'>Native Language</label>

@@ -52,7 +52,7 @@ const AudioFileContent = () => {
   };
 
   return (
-    <div>
+    <div >
       <h2 className='centerbox-title'>Drag and Drop Your Audio File</h2>
       <div className='centerbox-dropbox'>
         <div className="dropbox-and-title-container">

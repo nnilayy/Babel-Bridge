@@ -52,27 +52,14 @@ async def create_upload_file(NativeLanguage: str = Form(...), DesiredLanguage: s
 
     if native_language=="hi":
         translated_text = audio_2_text_hindi("audio.wav")
-    elif native_language=="pa":
-        translated_text = audio_2_text_punjabi(audio_file_name)
-    elif native_language=="mr":
-        translated_text = audio_2_text_marathi(audio_file_name)
-    elif native_language=="ur":
-        translated_text = audio_2_text_urdu(audio_file_name)
-    elif native_language=="te":
-        translated_text = audio_2_text_telugu(audio_file_name)
+    # elif native_language=="pa":
+    #     translated_text = audio_2_tzext_punjabi(audio_file_name)
+    # elif native_language=="mr":
+    #     translated_text = audio_2_text_marathi(audio_file_name)
+    # elif native_language=="ur":
+    #     translated_text = audio_2_text_urdu(audio_file_name)
+    # elif native_language=="te":
+    #     translated_text = audio_2_text_telugu(audio_file_name)
 
     translated_text = translate(native_language,desired_language,translated_text)
     return translated_text
-
-# @app.post("/recordaudio/")
-# async def record_audio_file(NativeLanguage: str = Form(...), DesiredLanguage: str = Form(...), audio: UploadFile = File(...)):
-#     native_language = NativeLanguage
-#     desired_language = DesiredLanguage
-#     audio_file = audio
-#     audio_file_name=audio_file.filename
-
-#     with open(audio_file_name, 'wb') as f:
-#         f.write(audio_file.file.read())
-
-#     audio_preprocessing(audio_file_name)
-#     return os.getcwd()
