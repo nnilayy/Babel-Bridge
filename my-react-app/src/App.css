@@ -290,3 +290,17 @@ padding-bottom:10px;
   padding: 5px;
   transition: background-color 0.3s ease; /* Add transition to background-color */
 }
+
+.response-box{
+  padding:10px;
+  background-color:rgba(0, 0, 0, 0);
+  margin-bottom:250px;
+}
+
+.response-box-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height:50vh;
+}
