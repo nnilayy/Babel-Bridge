@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 
-const TextContent = () => {
-  const [NativeLanguage, setNativeLanguage] = useState('');
-  const [DesiredLanguage, setDesiredLanguage] = useState('');
+const TextContent = ({ onResponseReceived }) => {
+  const [NativeLanguage, setNativeLanguage] = useState('hi');
+  const [DesiredLanguage, setDesiredLanguage] = useState('en');
   const [textInput, setTextInput] = useState('');
   const [translatedText, setTranslatedText] = useState(''); // State for translated text
 
   const handleDropdownChange1 = (e) => {
     setNativeLanguage(e.target.value);
   };
-
+  
   const handleDropdownChange2 = (e) => {
     setDesiredLanguage(e.target.value);
   };
+  
 
   const handleTextInputChange = (e) => {
     setTextInput(e.target.value);
@@ -45,6 +46,7 @@ const TextContent = () => {
           console.log('Server response:', data);
           setTranslatedText(data); // Update translatedText state
           setTextInput('');
+          onResponseReceived(data); // Pass the response text to the parent component
         })
         .catch((error) => {
           console.error('There was a problem with the fetch operation:', error);
@@ -53,6 +55,7 @@ const TextContent = () => {
       console.warn('Text input is empty. Please enter text before submitting.');
     }
   };
+  
 
   return (
     <div>

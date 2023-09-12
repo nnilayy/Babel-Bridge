@@ -3,22 +3,37 @@ import './App.css';
 import RecordContent from './RecordContent';
 import AudioVideoContent from './AudioFileContent';
 import TextContent from './TextContent';
+import ResponseBox from './ResponseBox'; // Import the ResponseBox component
 
 const CenterBox = () => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [responseText, setResponseText] = useState(null); // Track the response text
 
   const handleButtonClick = (option) => {
     setSelectedOption(option);
+    setResponseText(null); // Reset the response text when switching options
+  };
+
+  const handleResponseReceived = (text) => {
+    setResponseText(text); // Update the response text
   };
 
   const renderContent = () => {
     switch (selectedOption) {
       case 'Record':
-        return <RecordContent />;
+        return (
+          <>
+            {responseText ? (
+              <ResponseBox responseText={responseText} /> // Render the ResponseBox component when there's a response
+            ) : (
+              <RecordContent onResponseReceived={handleResponseReceived} /> // Pass the callback function
+            )}
+          </>
+        );
       case 'Audio/Video File':
         return <AudioVideoContent />;
       case 'Text':
-        return <TextContent />;
+        return <TextContent onResponseReceived={handleResponseReceived} />; // Pass the callback function
       default:
         return <div>Select an option to display content</div>;
     }
@@ -27,10 +42,12 @@ const CenterBox = () => {
   return (
     <div className='container'>
       <div className='gradient-heading'>
-       <div className='gradient-text'>
-        <h2 className='gradient-heading-text'>Card Title</h2>
-        <p className='gradient-explanation-text'>This is a simple card with a shadow effect. You can add your content here.</p>
-      </div>
+        <div className='gradient-text'>
+          <h2 className='gradient-heading-text'>Babel Bridge</h2>
+          <p className='gradient-explanation-text'>
+            This is a simple card with a shadow effect. You can add your content here.
+          </p>
+        </div>
       </div>
       <div className='centerbox'>
         <div className='top-layer'>

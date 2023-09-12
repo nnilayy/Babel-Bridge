@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import ResponseBox from './ResponseBox'; // Import the response box component
 
 function RecordContent() {
   const [audioStream, setAudioStream] = useState(null);
   const [audioUrl, setAudioUrl] = useState('');
   const [isRecording, setIsRecording] = useState(false);
-  const [NativeLanguage, setNativeLanguage] = useState('hi');
-  const [DesiredLanguage, setDesiredLanguage] = useState('en');
+  const [NativeLanguage, setNativeLanguage] = useState('Option 1');
+  const [DesiredLanguage, setDesiredLanguage] = useState('Option A');
   const [audio, setAudio] = useState(null); // Store the recorded audio data
-  const [serverResponse, setServerResponse] = useState(''); // Store the server response
+  const [submissionStatus, setSubmissionStatus] = useState('idle'); // Track submission status
 
   const handleDropdownChange1 = (event) => {
     setNativeLanguage(event.target.value);
@@ -89,6 +88,9 @@ function RecordContent() {
 
   const uploadAudioToServer = () => {
     if (audio) {
+      // Update submission status to 'loading'
+      setSubmissionStatus('loading');
+
       // Create a FormData and append the audio file and dropdown values
       const formData = new FormData();
       formData.append('NativeLanguage', NativeLanguage);
@@ -107,11 +109,14 @@ function RecordContent() {
           return response.json();
         })
         .then((data) => {
+          // Update submission status to 'completed'
+          setSubmissionStatus('completed');
           console.log('Server response:', data);
-          setServerResponse(data); // Set the server response in the state
         })
         .catch((error) => {
           console.error('There was a problem with the fetch operation:', error);
+          // Update submission status to 'error'
+          setSubmissionStatus('error');
         });
     } else {
       console.warn('No recorded audio to submit.');
@@ -122,7 +127,7 @@ function RecordContent() {
     <div>
       <h2 className='centerbox-title'>Record Your Voice</h2>
       <div className='centerbox-dropbox'>
-        <div className="dropbox-and-title-container">
+      <div className="dropbox-and-title-container">
           <label className='label-style'>Native Language</label>
           <select
             className="dropbox-style"
@@ -154,25 +159,38 @@ function RecordContent() {
         </div>
       ) : (
         <div className='audio-container'>
-        <audio className="audio" controls ></audio>
+          <audio className="audio" controls ></audio>
         </div>
       )}
 
-      {isRecording ? (
-        <button id="btnToggle" onClick={toggleRecording}>Stop Recording</button>
-      ) : (
+      {submissionStatus === 'idle' ? (
+        // Render buttons for idle state
         <>
-          <button id="btnToggle" onClick={toggleRecording}>Start Recording</button>
-          {audio && (
-            <button id="btnSubmit" onClick={uploadAudioToServer}>Submit</button>
+          {isRecording ? (
+            <button id="btnToggle" onClick={toggleRecording}>Stop Recording</button>
+          ) : (
+            <>
+              <button id="btnToggle" onClick={toggleRecording}>Start Recording</button>
+              {audio && (
+                <button id="btnSubmit" onClick={uploadAudioToServer}>Submit</button>
+              )}
+            </>
           )}
         </>
+      ) : (
+        // Render response box based on submission status
+        <div className='response-box'>
+          {submissionStatus === 'loading' ? (
+            <p>Loading...</p>
+          ) : submissionStatus === 'completed' ? (
+            <p>Submission completed successfully!</p>
+          ) : (
+            <p>Error occurred during submission.</p>
+          )}
+        </div>
       )}
 
       <button id="btnReset" onClick={resetRecording}>Reset</button>
-
-      {/* Display the response box when the server responds */}
-      {serverResponse && <ResponseBox serverResponse={serverResponse} />}
     </div>
   );
 }
