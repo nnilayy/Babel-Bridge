@@ -26,6 +26,12 @@ const CenterBox = () => {
 
   return (
     <div className='container'>
+      <div className='gradient-heading'>
+       <div className='gradient-text'>
+        <h2 className='gradient-heading-text'>Card Title</h2>
+        <p className='gradient-explanation-text'>This is a simple card with a shadow effect. You can add your content here.</p>
+      </div>
+      </div>
       <div className='centerbox'>
         <div className='top-layer'>
           <button className='button' onClick={() => handleButtonClick('Record')}>

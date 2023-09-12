@@ -8,10 +8,13 @@ import CenterBox from './CenterBox.jsx';
 
 function App() {
   return (
+    
     <div className="App">
+      <div className='content'>
         <Navbar /> 
         <CenterBox />
     </div>
+      </div>
   );
 }
 
