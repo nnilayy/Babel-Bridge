@@ -61,7 +61,7 @@ const CenterBox = () => {
         <div className='gradient-text'>
           <h2 className='gradient-heading-text'>Babel Bridge</h2>
           <p className='gradient-explanation-text'>
-            This is a simple card with a shadow effect. You can add your content here.
+          <i>Unlocking India's Multilingual Conversations, One Word at a Time</i>
           </p>
         </div>
       </div>

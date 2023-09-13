@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ResponseBox from './ResponseBox'; // Import the response box component
 
-function RecordContent({ onResponseReceived }) { // Accept the onResponseReceived prop
+function RecordContent({ onResponseReceived }) {
   const [audioStream, setAudioStream] = useState(null);
   const [audioUrl, setAudioUrl] = useState('');
   const [isRecording, setIsRecording] = useState(false);
@@ -9,6 +9,8 @@ function RecordContent({ onResponseReceived }) { // Accept the onResponseReceive
   const [DesiredLanguage, setDesiredLanguage] = useState('fr');
   const [audio, setAudio] = useState(null); // Store the recorded audio data
   const [serverResponse, setServerResponse] = useState(''); // Store the server response
+
+  const audioPlayerRef = useRef(null); // Reference to the audio element
 
   const handleDropdownChange1 = (event) => {
     setNativeLanguage(event.target.value);
@@ -77,8 +79,12 @@ function RecordContent({ onResponseReceived }) { // Accept the onResponseReceive
     if (audioStream) {
       audioStream.getTracks().forEach((track) => track.stop());
       setIsRecording(false);
+      
+      // Unmute the audio after stopping recording
+      audioPlayerRef.current.muted = false;
     }
   };
+  
 
   const resetRecording = () => {
     // Reset audioUrl and recording state
@@ -110,6 +116,12 @@ function RecordContent({ onResponseReceived }) { // Accept the onResponseReceive
           console.log('Server response:', data);
           setServerResponse(data); // Set the server response in the state
           onResponseReceived(data); // Call the callback function with the server response
+
+          // Play the recorded audio
+          if (audioPlayerRef.current) {
+            audioPlayerRef.current.src = audioUrl;
+            audioPlayerRef.current.play();
+          }
         })
         .catch((error) => {
           console.error('There was a problem with the fetch operation:', error);
@@ -151,28 +163,25 @@ function RecordContent({ onResponseReceived }) { // Accept the onResponseReceive
 
       {audioUrl ? (
         <div className='audio-container'>
-          <audio className="audio" controls src={audioUrl}></audio>
+          <audio controls className="audio" ref={audioPlayerRef} src={audioUrl}></audio>
         </div>
       ) : (
         <div className='audio-container'>
-        <audio className="audio" controls ></audio>
+          <audio controls className="audio" src={audioUrl} ref={audioPlayerRef}  ></audio>
         </div>
       )}
 
       {isRecording ? (
-        <button id="btnToggle" onClick={toggleRecording}>Stop Recording</button>
+        <button className='record-button' onClick={toggleRecording}>Stop Recording</button>
       ) : (
         <>
-          <button id="btnToggle" onClick={toggleRecording}>Start Recording</button>
+          <button className='record-button' onClick={toggleRecording}>Start Recording</button>
           {audio && (
-            <button id="btnSubmit" onClick={uploadAudioToServer}>Submit</button>
+            <button  className='record-button' onClick={uploadAudioToServer}>Submit</button>
           )}
         </>
       )}
-
-      <button id="btnReset" onClick={resetRecording}>Reset</button>
-
-      {/* Display the response box when the server responds */}
+      <button className="record-button" onClick={resetRecording}>Reset</button>
       {serverResponse && <ResponseBox serverResponse={serverResponse} />}
     </div>
   );

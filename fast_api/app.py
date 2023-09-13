@@ -1,11 +1,15 @@
+import os
+import numpy as np
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from pydub import AudioSegment
-import numpy as np
-import os
 from translator import translate
 from hindi import audio_2_text_hindi
+from telugu import audio_2_text_telugu
+from marathi import audio_2_text_marathi
+from punjabi import audio_2_text_punjabi
 from audio_preprocessing import audio_preprocessing
 
 
@@ -35,6 +39,8 @@ def text_data(input_data: TextInput):
     desired_language = input_data.DesiredLanguage
     text_input = input_data.textInput
     translated_text = translate(native_language,desired_language,text_input)
+
+    # return FileResponse("tts.wav", media_type="audio/wav")
     return translated_text
 
 @app.post("/audio/")
@@ -52,14 +58,14 @@ async def create_upload_file(NativeLanguage: str = Form(...), DesiredLanguage: s
 
     if native_language=="hi":
         translated_text = audio_2_text_hindi("audio.wav")
-    # elif native_language=="pa":
-    #     translated_text = audio_2_tzext_punjabi(audio_file_name)
-    # elif native_language=="mr":
-    #     translated_text = audio_2_text_marathi(audio_file_name)
+    elif native_language=="pa":
+        translated_text = audio_2_text_punjabi("audio.wav")
+    elif native_language=="mr":
+        translated_text = audio_2_text_marathi("audio.wav")
     # elif native_language=="ur":
-    #     translated_text = audio_2_text_urdu(audio_file_name)
-    # elif native_language=="te":
-    #     translated_text = audio_2_text_telugu(audio_file_name)
+    #     translated_text = audio_2_text_urdu("audio.wav")
+    elif native_language=="te":
+        translated_text = audio_2_text_telugu("audio.wav")
 
     translated_text = translate(native_language,desired_language,translated_text)
     return translated_text

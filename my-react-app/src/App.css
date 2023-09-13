@@ -124,7 +124,7 @@ padding-bottom:10px;
 }
 
 .gradient-explanation-text{
-  color:rgba(255, 255, 255, 0.882);
+  color:rgb(158, 168, 165);
 }
 
 .top-layer{
@@ -246,7 +246,8 @@ padding-bottom:10px;
   color: #fafafa;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0);
-  padding: 150px;  
+  padding: 150px; 
+  padding-bottom:100px; 
 }
 
 .audio-container{
@@ -291,16 +292,58 @@ padding-bottom:10px;
   transition: background-color 0.3s ease; /* Add transition to background-color */
 }
 
-.response-box{
-  padding:10px;
-  background-color:rgba(0, 0, 0, 0);
-  margin-bottom:250px;
+.logo{
+  width:50px;
+  height: 50px;
+  padding:0px;
 }
 
-.response-box-container{
+.response-box {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  margin-bottom: 250px;
+  opacity: 0; /* Start with 0 opacity */
+  animation: fadeInLeft 1s ease-in-out forwards; /* Use the animation */
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px); /* Start slightly to the left */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0); /* Fade in and move to the original position */
+  }
+}
+
+.response-box-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height:50vh;
+  height: 50vh;
+}
+
+
+.record-button{
+  background-color: #173a2900; /* Default button background color */
+  color: #fff; /* Default text color */
+  padding: 10px 20px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-top:-10px;
+  margin-bottom:40px;
+  border-color: #7f7f7f;
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease; /* Transition properties for default state */
+  cursor: pointer;
+  transition-delay: 0.5s; /* Add a delay of 0.5s to the default state */
+}
+.record-button:hover {
+  background-image: linear-gradient(to right, #231468, #152546); /* Darkish gradient */
+  color: #fff;
+  border-color: #0d1526;
+  transition-delay: 0s; /* Reset the delay for hover state */
 }
