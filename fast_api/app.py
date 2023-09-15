@@ -63,7 +63,7 @@ async def create_upload_file(NativeLanguage: str = Form(...), DesiredLanguage: s
     elif native_language=="mr":
         translated_text = audio_2_text_marathi("audio.wav")
     # elif native_language=="ur":
-    #     translated_text = audio_2_text_urdu("audio.wav")
+    #     translated_text = audio_2_text_hindi("audio.wav")
     elif native_language=="te":
         translated_text = audio_2_text_telugu("audio.wav")
 
